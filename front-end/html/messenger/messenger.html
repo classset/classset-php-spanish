@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- <meta charset="utf-8"> -->
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+    
+    <!--NO CACHE-->
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Gabriel Nicolás González Ferreira">
+     
+    <link rel="shortcut icon" href="front-end/images/favicon.png">
+
+    <title>Mensaje</title>
+
+    <!-- Wrapper for all CSS -->
+    <link href="front-end/css/StyleWrapper.css" rel="stylesheet">
+
+    <!--JQUERY-->
+    <script type="text/javascript" src="front-end/vendors/jquery/jquery-1.11.0.min.js"></script>
+    
+    <!--JQUERY UI-->
+    <script src="front-end/vendors/jquery-ui/ui/jquery.ui.core.js"></script>
+    <script src="front-end/vendors/jquery-ui/ui/jquery.ui.widget.js"></script>
+    <script src="front-end/vendors/jquery-ui/ui/jquery.ui.datepicker.js"></script>
+  </head>
+
+  <body>
+
+    <noscript>
+      <p>Welcome!</p>
+      <p>
+        The page you are seeing requires the use of JavaScript performance.
+        If you have intentionally disabled, please re-activate.
+      </p>
+    </noscript>
+
+          <p class="navbar-text pull-right">
+              <i class="navbar-link">
+              <i class="glyphicon glyphicon-user"></i>
+              <strong id="login-user"><!--UserName--></strong></i> &nbsp;
+              <a id="logout-link" href="index.php?A_Logout" class="navbar-link">Cerrar Sesión</a>    
+          </p>
+
+	<div class="container" style="padding-top: 1em;">
+	  <div  class="alert alert-danger" style="text-align: center;">
+	  	<img class="btn btn-danger btn-small" width="70" height="50" src="front-end/images/back.png" onclick="history.back();"><br>
+	    <h1><strong id="message"></strong></h1>
+	  </div>
+	</div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    
+
+    <!--BOOTSTRAP JS-->
+    <script type="text/javascript" src="front-end/vendors/bootstrap/js/bootstrap.min.js"></script>
+
+  </body>
+</html>

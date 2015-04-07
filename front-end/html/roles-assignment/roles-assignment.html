@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- <meta charset="utf-8"> -->
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+    
+    <!--NO CACHE-->
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Gabriel Nicolás González Ferreira">
+     
+    <link rel="shortcut icon" href="front-end/images/favicon.png">
+
+    <title id="title">
+      Asignación de Roles
+    </title>
+
+    <!-- Wrapper for all CSS -->
+    <link href="front-end/css/StyleWrapper.css" rel="stylesheet">
+
+    <!--JQUERY-->
+    <script type="text/javascript" src="front-end/vendors/jquery/jquery-1.11.0.min.js"></script>
+    
+    <!--JQUERY UI-->
+    <script src="front-end/vendors/jquery-ui/ui/jquery.ui.core.js"></script>
+    <script src="front-end/vendors/jquery-ui/ui/jquery.ui.widget.js"></script>
+    <script src="front-end/vendors/jquery-ui/ui/jquery.ui.datepicker.js"></script>
+
+  </head>
+
+  <body>
+    <noscript>
+      <p>Welcome!</p>
+      <p>
+        The page you are seeing requires the use of JavaScript performance.
+        If you have intentionally disabled, please re-activate.
+      </p>
+    </noscript>
+    
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+
+      <!-- Fixed navbar -->
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a id="logo-link" class="navbar-brand" href="index.php?A_SelectUserToAssignRoles">
+            <!--LOGO-TITLE-->
+            Asignación de Roles
+          </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul id="menu" class="nav navbar-nav">
+            <li class="active"><a id="main-link" href="index.php?A_SelectUserToAssignRoles">Asignación de Roles</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a id="users-menu-link" href="index.php?A_ReadUsersPaginated">Usuarios</a></li>
+                <li><a id="roles-menu-link" href="index.php?A_ReadRolesPaginated">Roles</a></li>
+                <li><a id="roles-assignment-menu-link" href="index.php?A_SelectUserToAssignRoles">Asignación de Roles</a></li>
+                <li><a id="action-assignment-menu-link" href="index.php?A_SelectRoleToAssignActions">Asignación de Acciones</a></li>
+              </ul>
+            </li>
+          </ul>
+
+          <!--SEARCH FORM-->
+          <form id="roles-assigned-search-form" name="rolesAssignedSearchForm" style="display: none;" class="navbar-form navbar-left" role="search" action="index.php" method="post" >
+            <div class="form-group">
+              <input id="search-target" name="search-target" type="text" class="form-control" placeholder="Type your search" required>
+            </div>
+            <input type="submit" class="btn btn-default" id="searchUsersButton" name="A_SearchAssignedRolesByName" value="Buscar">
+          </form>
+          <!--SEARCH FORM-->
+
+          <p class="navbar-text pull-right">
+              <i class="navbar-link">
+              <i class="glyphicon glyphicon-user"></i>
+              <strong id="login-user"><!--UserName--></strong></i> &nbsp;
+              <a id="logout-link" href="index.php?A_Logout" class="navbar-link">Cerrar Sesión</a>    
+          </p>
+        
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <!--MESSAGE CONTAINER-->
+      <h2 id="message-container" class='page-header'></h2>
+      <!--MESSAGE CONTAINER-->
+
+      <!--CONTENT-->
+      <div id="main-container">
+        
+        <!--USER SELECT FORM-->
+        <form id="user-select-form" name="select-form" method="post" action="index.php" class="container" style="display: none;">
+          <div class="form-group">
+            <label id="select-label" name="select-label"> 
+              
+            Asignar Roles al soguiente Usuario: </label>
+            <select id="user-select-input" name="selected-user-id" class="form-control">
+            </select>
+
+          </div>
+
+          <div class="form-group">
+            <input id="select-submit" type="submit" name="A_ReadRolesWithStatus" value="Go to Roles Assignment" class="btn btn-primary btn-small">
+          </div>  
+        </form>
+        <!--USER SELECT FORM-->
+        
+        <!--ROLES ASSIGNMENT FORM-->
+        <form id="roles-assignment-form" name="roles-assignment-form" method="post" action="index.php" class="container" style="display: none;">
+          
+          <div id="role-assignment-checkboxs">
+          </div>
+          <br>
+          <input id="role-assignment-submit" type="submit" value="Guardar" class="btn btn-primary btn-small" name="A_SaveRolesForTheUser">
+
+        </form>
+        <!--ROLES ASSIGNMENT FORM-->
+
+      </div>
+
+    </div>
+
+  <!--FOOTER-->
+    <div id="footer" style="text-align: center;">
+      <div class="container">
+        <p class="text-muted credit">Copyleft <a href="">Classet - Team</a>.</p>
+      </div>
+    </div>
+  <!--FOOTER-->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    
+
+    <!--BOOTSTRAP JS-->
+    <script type="text/javascript" src="front-end/vendors/bootstrap/js/bootstrap.min.js"></script>
+    
+    <!--MY SCRIPTS-->
+
+  </body>
+</html>
