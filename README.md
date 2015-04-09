@@ -1,1 +1,1 @@
-Classset! originalmente comenzó como un proyecto de estudio de Gabriel Nicolás González Ferreira, impulsado por buenas personas con buenas ideas. Hoy se consolidó como un conjunto de clases reutilizables para facilitar el desarrollo de aplicaciones web.
+Classset originalmente comenzó como un proyecto de estudio de Gabriel Nicolás González Ferreira, impulsado por buenas personas con buenas ideas. Hoy se consolidó como un conjunto de clases reutilizables para facilitar el desarrollo de aplicaciones web.
