@@ -16,7 +16,7 @@ EL UPDATE AVAILABLE ACTIONS QUE DEBE BORRAR TAMBIÉN
 			*QUE EXISTA LA OPCIÓN DE BORRAR DEFINITIVAMENTE A UN USUARIO Y LA DE DESHABILITAR.
 			*El nombre de un presenter o action o method no puede repetirse
 
-
+Si inicia sesión y no tiene acción authorizada se desloguea.
 
 
 

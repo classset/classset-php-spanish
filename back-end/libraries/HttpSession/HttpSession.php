@@ -26,7 +26,6 @@ class HttpSession implements ISession
 {
 	private static $_instance;
 	private $time;
-	private $regeneratedState;
 
 	private function __construct()
 	{
@@ -65,7 +64,6 @@ class HttpSession implements ISession
 	public function setTime($time)
 	{
 		$this->time = $time;
-		$this->regeneratedState = true;
 	}
 
 	public function getTime()
@@ -75,13 +73,8 @@ class HttpSession implements ISession
 
 	public function start()
 	{
-		/*Los parámetros comentados son para configurar el tiempo de sesión tengo que hacerlo
-		desde una configuración desde un ini*/
 		session_set_cookie_params($this->time);
 		session_start();
-		/*Cuando esté activado session_set_cookie_params lo siguiente es necesario para regenerar
-		la sesión*/
-		session_regenerate_id($this->regeneratedState);
 	}
 
 	public function set($key, $value)

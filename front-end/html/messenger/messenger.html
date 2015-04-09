@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <!-- <meta charset="utf-8"> -->
-    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
     <!--NO CACHE-->
     <meta http-equiv="Expires" content="0" />
@@ -22,10 +22,6 @@
     <!--JQUERY-->
     <script type="text/javascript" src="front-end/vendors/jquery/jquery-1.11.0.min.js"></script>
     
-    <!--JQUERY UI-->
-    <script src="front-end/vendors/jquery-ui/ui/jquery.ui.core.js"></script>
-    <script src="front-end/vendors/jquery-ui/ui/jquery.ui.widget.js"></script>
-    <script src="front-end/vendors/jquery-ui/ui/jquery.ui.datepicker.js"></script>
   </head>
 
   <body>
@@ -38,19 +34,21 @@
       </p>
     </noscript>
 
-          <p class="navbar-text pull-right">
-              <i class="navbar-link">
-              <i class="glyphicon glyphicon-user"></i>
-              <strong id="login-user"><!--UserName--></strong></i> &nbsp;
-              <a id="logout-link" href="index.php?A_Logout" class="navbar-link">Cerrar Sesión</a>    
-          </p>
+    <div class="navbar-text pull-right">
+          <i class="navbar-link">
+          <i class="glyphicon glyphicon-user"></i>
+          <strong id="login-user"></strong></i> &nbsp;
+          <a id="logout-link" href="index.php?A_Logout" class="navbar-link">Cerrar Sesión</a>    
+      </div>
+      
+      <br><br>
 
-	<div class="container" style="padding-top: 1em;">
-	  <div  class="alert alert-danger" style="text-align: center;">
-	  	<img class="btn btn-danger btn-small" width="70" height="50" src="front-end/images/back.png" onclick="history.back();"><br>
-	    <h1><strong id="message"></strong></h1>
-	  </div>
-	</div>
+      <div class="container text-center" style="padding-top: 1em;">
+        <div  class="alert alert-danger" style="text-align: center;">
+          <img class="btn btn-danger btn-small" width="70" height="50" src="front-end/images/back.png" onclick="history.back();"><br>
+          <h1><strong id="message"></strong></h1>
+        </div>
+      </div>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

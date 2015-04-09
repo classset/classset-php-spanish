@@ -1,6 +1,7 @@
 <?php
 /**
  *  Copyright 2013 Pablo Daniel Spennato <pdspennato@gmail.com> 
+ *  Copyright 2013 Gabriel Nicolás González Ferreira <gabrielinuz@gmail.com>
  *
  *  Permission is hereby granted, free of charge, to any person obtaining
  *  a copy of this software and associated documentation files (the
