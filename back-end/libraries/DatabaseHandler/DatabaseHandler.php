@@ -48,7 +48,7 @@ class DatabaseHandler implements IDatabaseHandler
 		(
 			'Invalid Operation: You can not clone an instance of '
 			. get_class($this) ." class.", E_USER_ERROR 
-			);
+		);
 	}
 
 	//to prevent deserialization:
@@ -58,7 +58,7 @@ class DatabaseHandler implements IDatabaseHandler
 		(
 			'Invalid Operation: You can not deserialize an instance of '
 			. get_class($this) ." class."
-			);
+		);
 	}
 
 	public static function getInstance()
