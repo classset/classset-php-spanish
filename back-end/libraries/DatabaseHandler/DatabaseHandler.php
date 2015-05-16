@@ -22,7 +22,7 @@
  *  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  **/
 
-class DatabaseHandler
+class DatabaseHandler implements IDatabaseHandler
 {
 	/* attributes: */
   	private static $instance;
@@ -37,96 +37,9 @@ class DatabaseHandler
 
 	/* methods: */
 
-	/*FOR PROPERTIES*/
-    public function __get($name)
-    {
-        if (method_exists($this, ($method = 'get'.ucfirst($name))))
-        {
-          return $this->$method();
-        }
-        else return;
-    }
-
-    public function __set($name, $value)
-    {
-        if (method_exists($this, ($method = 'set'.ucfirst($name))))
-        {
-          $this->$method($value);
-        }
-    }
-	/*FOR PROPERTIES*/
-	
 	private function __construct()
 	{ 
 	}
-
-	/*GETTERS AND SETTERS*/
-  	public function getHost()
-  	{
-  	    return $this->host;
-  	}
-  	
-  	public function setHost($host)
-  	{
-  	    $this->host = $host;
-  	    return $this;
-  	}
-
-  	public function getPort()
-  	{
-  	    return $this->port;
-  	}
-  	
-  	public function setPort($port)
-  	{
-  	    $this->port = $port;
-  	    return $this;
-  	}
-
-  	public function getName()
-  	{
-  	    return $this->name;
-  	}
-  	
-  	public function setName($name)
-  	{
-  	    $this->name = $name;
-  	    return $this;
-  	}
-
-  	public function getUser()
-  	{
-  	    return $this->user;
-  	}
-  	
-  	public function setUser($user)
-  	{
-  	    $this->user = $user;
-  	    return $this;
-  	}
-
-  	public function getPassword()
-  	{
-  	    return $this->password;
-  	}
-  	
-  	public function setPassword($password)
-  	{
-  	    $this->password = $password;
-  	    return $this;
-  	}
-
-  	public function getFilePath()
-  	{
-  	    return $this->filePath;
-  	}
-  	
-  	public function setFilePath($filePath)
-  	{
-  	    $this->filePath = $filePath;
-  	    return $this;
-  	}
-  	/*GETTERS AND SETTERS*/
 
 	//to_prevent cloned:
 	private function __clone()
@@ -157,21 +70,109 @@ class DatabaseHandler
 		return self::$instance;
 	}
 
-	//LOAD DATABASE SYSTEM
-	private function _loadSystem($systemName) 
-	{ 
-		require_once "{$systemName}Database.php";
-	}
+	/*FOR PROPERTIES*/
+    public function __get($name)
+    {
+        if (method_exists($this, ($method = 'get'.ucfirst($name))))
+        {
+          return $this->$method();
+        }
+        else return;
+    }
 
+    public function __set($name, $value)
+    {
+        if (method_exists($this, ($method = 'set'.ucfirst($name))))
+        {
+          $this->$method($value);
+        }
+    }
+	/*FOR PROPERTIES*/
+	
+
+	/*GETTERS AND SETTERS*/
+  	private function getHost()
+  	{
+  	    return $this->host;
+  	}
+  	
+  	private function setHost($host)
+  	{
+  	    $this->host = $host;
+  	    return $this;
+  	}
+
+  	private function getPort()
+  	{
+  	    return $this->port;
+  	}
+  	
+  	private function setPort($port)
+  	{
+  	    $this->port = $port;
+  	    return $this;
+  	}
+
+  	private function getName()
+  	{
+  	    return $this->name;
+  	}
+  	
+  	private function setName($name)
+  	{
+  	    $this->name = $name;
+  	    return $this;
+  	}
+
+  	private function getUser()
+  	{
+  	    return $this->user;
+  	}
+  	
+  	private function setUser($user)
+  	{
+  	    $this->user = $user;
+  	    return $this;
+  	}
+
+  	private function getPassword()
+  	{
+  	    return $this->password;
+  	}
+  	
+  	private function setPassword($password)
+  	{
+  	    $this->password = $password;
+  	    return $this;
+  	}
+
+  	private function getFilePath()
+  	{
+  	    return $this->filePath;
+  	}
+  	
+  	private function setFilePath($filePath)
+  	{
+  	    $this->filePath = $filePath;
+  	    return $this;
+  	}
+  	/*GETTERS AND SETTERS*/
+
+	//LOAD DATABASE SYSTEM
+
+  	//INTERFACE PUBLIC METHOD
     public function openDBMS($systemName)
     {
     	$ucSystemName = ucfirst($systemName);
-    	$this -> _loadSystem($ucSystemName);
+
+    	require_once "{$ucSystemName}Database.php";
+    	
     	$databaseClass = "{$ucSystemName}Database";
     	$this -> databaseObject = new $databaseClass;
     	$this -> databaseLink = $this -> databaseObject -> openDatabase();
     	return $this;
     }
+    //INTERFACE PUBLIC METHOD
 
 	private function execQuery($query)
 	{ 
@@ -226,18 +227,6 @@ class DatabaseHandler
 		return $row;
 	}
 
-	private function getResultingRowOnObject($databaseReply)
-	{
-		$row = $databaseReply -> fetch(PDO::FETCH_OBJ);
-		return $row;
-	}
-
-	private function getResultingRowsOnArrayOfObjects($databaseReply)
-	{
-		$row = $databaseReply -> fetchAll(PDO::FETCH_OBJ);
-		return $row;
-	}
-
 	private function closeDatabase($databaseLink, $databaseReply)
 	{
 	  	$databaseLink = null;
@@ -245,31 +234,12 @@ class DatabaseHandler
 	}
 
 //INTERFACE PUBLIC METHODS	
-
 	public function SQLQuery($query)
 	{
 		$databaseLink = $this -> databaseLink;
 		$reply = $this-> execQuery($query);
 		$this -> closeDatabase($databaseLink, $reply);
 	}
-
-	public function SQLFetchObject($query)
-	{
-		$databaseLink = $this -> databaseLink;
-		$reply = $this -> execQuery($query);
-		$resultRow = $this -> getResultingRowOnObject($reply);
-		$this -> closeDatabase($databaseLink, $reply);
-	  	return $resultRow;
-	}
-
-	public function SQLFetchAllObject($query)
-	{
-		$databaseLink = $this -> databaseLink;
-		$reply = $this -> execQuery($query);
-		$resultRow = $this -> getResultingRowsOnArrayOfObjects($reply);
-		$this -> closeDatabase($databaseLink, $reply);
-	  	return $resultRow;
-	} 
 
 	public function SQLFetchArray($query)
 	{
@@ -289,30 +259,12 @@ class DatabaseHandler
 	  	return $resultRow;
 	}
 
-/*FOR TRANSACTIONS*/
+	/*FOR TRANSACTIONS*/
 	public function SQLTransaction($queriesOnArray)
 	{
 		$databaseLink = $this -> databaseLink;
 		$reply = $this -> execQueriesInTransaction($queriesOnArray);
 		$this -> closeDatabase($databaseLink, $reply);
-	}
-
-	public function SQLTransactionObject($queriesOnArray)
-	{
-		$databaseLink = $this -> databaseLink;
-		$reply = $this -> execQueriesInTransaction($queriesOnArray);
-		$resultRow = $this -> getResultingRowOnObject($reply);
-		$this -> closeDatabase($databaseLink, $reply);
-	  	return $resultRow;
-	}  
-
-	public function SQLTransactionAllObject($queriesOnArray)
-	{
-		$databaseLink = $this -> databaseLink;
-		$reply = $this -> execQueriesInTransaction($queriesOnArray);
-		$resultRow = $this -> getResultingRowsOnArrayOfObjects($reply);
-		$this -> closeDatabase($databaseLink, $reply);
-	  	return $resultRow;    
 	}
 
 	public function SQLTransactionArray($queriesOnArray)
@@ -332,7 +284,8 @@ class DatabaseHandler
 		$this -> closeDatabase($databaseLink, $reply);
 	  	return $resultRow;    
 	}
-/*FOR TRANSACTIONS*/
+	/*FOR TRANSACTIONS*/
+//INTERFACE PUBLIC METHODS
 
 	public function __destruct()
 	{
@@ -340,4 +293,5 @@ class DatabaseHandler
 	}
 
 }	
+
 ?>
