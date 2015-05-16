@@ -160,7 +160,7 @@ class DatabaseHandler implements IDatabaseHandler
 
 	//LOAD DATABASE SYSTEM
 
-  	//INTERFACE PUBLIC METHOD
+	//INTERFACE PUBLIC METHOD
 	public function openDBMS($systemName)
 	{
 		$ucSystemName = ucfirst($systemName);
@@ -172,7 +172,7 @@ class DatabaseHandler implements IDatabaseHandler
 		$this -> databaseLink = $this -> databaseObject -> openDatabase();
 		return $this;
 	}
-    //INTERFACE PUBLIC METHOD
+	//INTERFACE PUBLIC METHOD
 
 	private function execQuery($query)
 	{ 
@@ -233,7 +233,7 @@ class DatabaseHandler implements IDatabaseHandler
 		$databaseReply = null;
 	}
 
-//INTERFACE PUBLIC METHODS	
+	//INTERFACE PUBLIC METHODS	
 	public function SQLQuery($query)
 	{
 		$databaseLink = $this -> databaseLink;
@@ -285,7 +285,7 @@ class DatabaseHandler implements IDatabaseHandler
 		return $resultRow;    
 	}
 	/*FOR TRANSACTIONS*/
-//INTERFACE PUBLIC METHODS
+	//INTERFACE PUBLIC METHODS
 
 	public function __destruct()
 	{
