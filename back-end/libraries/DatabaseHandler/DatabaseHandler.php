@@ -185,7 +185,7 @@ class DatabaseHandler implements IDatabaseHandler
 
 		catch(PDOException $exception) 
 		{
-	    	//manage exception and log
+			//TO DO: manage exception and log
 			echo $exception -> getMessage();  
 		}
 
@@ -208,7 +208,7 @@ class DatabaseHandler implements IDatabaseHandler
 
 		catch(PDOException $exception) 
 		{
-	    	//manage exception and log
+			//TO DO: manage exception and log
 			echo $exception -> getMessage();  
 		}
 
