@@ -24,7 +24,7 @@
 	
 interface IDatabaseHandler
 {
-    public function openDBMS($systemName);
+	public function openDBMS($systemName);
 
 	public function SQLQuery($query);
 
