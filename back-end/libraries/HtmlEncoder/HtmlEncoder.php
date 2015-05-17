@@ -26,10 +26,10 @@ class HtmlEncoder implements IEncoder
 {	
 	public function encode($string)
 	{
-	    $entities = get_html_translation_table(HTML_ENTITIES, ENT_NOQUOTES, 'UTF-8');
-    	$specialChars = get_html_translation_table(HTML_SPECIALCHARS, ENT_NOQUOTES, 'UTF-8');
-    	$latinChars["latinChars"] = array_diff($entities, $specialChars);
-    	$encodeString= strtr($string, $latinChars["latinChars"]);
+		$entities = get_html_translation_table(HTML_ENTITIES, ENT_NOQUOTES, 'UTF-8');
+		$specialChars = get_html_translation_table(HTML_SPECIALCHARS, ENT_NOQUOTES, 'UTF-8');
+		$latinChars["latinChars"] = array_diff($entities, $specialChars);
+		$encodeString= strtr($string, $latinChars["latinChars"]);
     	return utf8_encode($encodeString);
 	}
 }
