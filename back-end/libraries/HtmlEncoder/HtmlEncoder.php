@@ -30,7 +30,7 @@ class HtmlEncoder implements IEncoder
 		$specialChars = get_html_translation_table(HTML_SPECIALCHARS, ENT_NOQUOTES, 'UTF-8');
 		$latinChars["latinChars"] = array_diff($entities, $specialChars);
 		$encodeString= strtr($string, $latinChars["latinChars"]);
-    	return utf8_encode($encodeString);
+		return utf8_encode($encodeString);
 	}
 }
 
