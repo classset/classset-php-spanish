@@ -67,7 +67,6 @@ class A_Main implements IAction
 		$actions['A_Authorize']->execute();
 
 		//Si está autenticado y no autorizado:
-		// $validator->ifFalse( $authorizer->isAuthorized() )
 		$validator->ifFalse( $session->get("authorized") )
 					->respond(NO_AUTHORIZED_ACTION);
 
