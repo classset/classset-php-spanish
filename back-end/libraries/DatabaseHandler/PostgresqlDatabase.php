@@ -33,8 +33,10 @@ class PostgresqlDatabase
 	{
 		try 
 		{
-			$dbh = DatabaseHandler::getInstance();      
-			$databaseLink = new PDO('pgsql:'.$dbh->name, $dbh->host, $dbh->user, $dbh->password);	
+			$dbh = DatabaseHandler::getInstance(); 
+			if (!isset($dbh->port)){$dbh->port=5432;}     
+			// $databaseLink = new PDO('pgsql:'.$dbh->name, $dbh->host, $dbh->user, $dbh->password);
+			$databaseLink = new PDO('pgsql:host='.$dbh->host.';port='.$dbh->port.';dbname='.$dbh->name, $dbh->user, $dbh->password);	
 			$databaseLink -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		} 
 
