@@ -56,14 +56,9 @@
     define('NOT_IMPLEMENTED', ' aún no ha sido implementado :(');
 
 //FOR PAGINATION
-    define('FIRST', 'principio');    
-    define('LAST', 'final');
-    define('NEXT', 'siguiente');
-    define('PREVIOUS', 'anterior');
-    define('ROWS_PER_PAGE', 'Filas por página: ');
-    define('APPLY', 'aplicar');
-	define('GO_TO', 'Ir a: ');
-	define('SET_PAGE', 'Definir página: ');
+    // define('ROWS_PER_PAGE', 'Filas por página: ');
+    // define('GO_TO', 'Ir a: ');
     define('PAGE', 'Página: ');
     define('OF', ' de ');
+    define('NO_RESULTS', '¡Sin resultados!');
 ?>

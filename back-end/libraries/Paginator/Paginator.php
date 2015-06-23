@@ -30,12 +30,32 @@ class Paginator implements IPaginator
 	private $rowsPerPage;
 	private $beginning;
 	private $end;
-	private $paginationButtons;
+	private $paginationSelect;
 	private $action;
 
 	public function __construct(ISession $session)
 	{
 		$this->session = $session;
+
+		$this->setConstants();
+
+		if(empty($_REQUEST['rows-per-page']))
+		{
+			$this->setRowsPerPage();
+		}
+		else
+		{
+			$this->setRowsPerPage($_REQUEST['rows-per-page']);
+		}
+
+		if(empty($_REQUEST['page-number']))
+		{
+			$this->setPageNumber();
+		}
+		else
+		{
+			$this->setPageNumber($_REQUEST['page-number']);
+		}
 	}
 
 	/*FOR PROPERTIES*/
@@ -63,18 +83,9 @@ class Paginator implements IPaginator
 	    return $this->session->get("page-number");
 	}
 	
-	private function setPageNumber($pageNumber)
+	private function setPageNumber($pageNumber = 1)
 	{
-	    if (!isset($pageNumber)) 
-	    {
-	    	$pageNumber=1;
-	    	$this->session->set("page-number", $pageNumber);
-	    }
-	    else
-		{
-			$this->session->set("page-number", $pageNumber);
-		}	   
-	    
+		$this->session->set("page-number", $pageNumber);
 	    return $this;
 	}
 
@@ -83,12 +94,8 @@ class Paginator implements IPaginator
 	    return $this->session->get("rows-per-page");
 	}
 	
-	private function setRowsPerPage($rowsPerPage)
+	private function setRowsPerPage($rowsPerPage = 5)
 	{
-	    if (!isset($rowsPerPage) or $rowsPerPage==0) 
-	    {
-	    	$rowsPerPage=5;
-	    }
 	    $this->session->set("rows-per-page", $rowsPerPage);
 	    return $this;
 	}
@@ -128,18 +135,6 @@ class Paginator implements IPaginator
 	    return $this;
 	}
 
-	private function getPaginationButtons()
-	{
-		$this->generatePaginationButtons();
-	    return $this->session->get("paginationButtons");
-	}
-	
-	private function setPaginationButtons($paginationButtons)
-	{
-	    $this->session->set("paginationButtons", $paginationButtons);
-	    return $this;
-	}
-
 	private function getPaginationSelect()
 	{
 		$this->generatePaginationSelect();
@@ -152,7 +147,7 @@ class Paginator implements IPaginator
 	    return $this;
 	}
 
-	public function getAction()
+	private function getAction()
 	{
 	    return $this->action;
 	}
@@ -162,7 +157,6 @@ class Paginator implements IPaginator
 	    $this->action = $action;
 	    return $this;
 	}
-
 	/*GETTERS AND SETTERS*/
 
 	private function calculateBegining()
@@ -184,6 +178,13 @@ class Paginator implements IPaginator
 		return $this;
 	}
 
+	private function setConstants()
+	{
+		if (!defined('CL_PAGE')) {	define('CL_PAGE', 'Page: ');}
+		if (!defined('CL_OF')) { define('CL_OF', ' of ');	}
+		if (!defined('CL_NO_RESULTS')) { define('CL_NO_RESULTS', ' No results! ');	}
+	}
+
 	private function generatePaginationSelect()
 	{
 		$paginationSelect = null;
@@ -200,202 +201,41 @@ class Paginator implements IPaginator
 			if ($counter == $actualPage) 
 			{
 				$options .= '<option selected value="'.$counter.'">'
-								.PAGE.$counter.OF.$lastPage.
-							'</option>';
+								.CL_PAGE.$counter.CL_OF.$lastPage.
+							'</option>'."\n";
 			}
 			else
 			{
 				$options .= '<option name="value" value="'.$counter.'">'
-								.PAGE.$counter.OF.$lastPage.
-							'</option>';				
+								.CL_PAGE.$counter.CL_OF.$lastPage.
+							'</option>'."\n";				
 			}
 		} 
 
-		$paginationSelect .= '<select id="selected_page" 
-								name="page_select" 
-								class="form-control" 
-								onchange="setPage(this.value)">
-								
-								'.$options.'
+		if($this->rowsTotalNumber == 0)
+		{
+			$paginationSelect .= '<strong><h1>'.NO_RESULTS.'</h1></strong><br><br>';
+		}
 
-								</select>
+		$paginationSelect .= '<select id="selected_page" name="page_select" ';
+		$paginationSelect .= 'class="form-control" onchange="setPage(this.value)">'."\n";
+		$paginationSelect .= $options;
+		$paginationSelect .= '</select>'."\n";
+		$paginationSelect .= '<script type="text/javascript">'."\n";
+		$paginationSelect .= 'function setPage(value)'."\n";
+		$paginationSelect .= '{'."\n";
+		$paginationSelect .= 'var myselect = document.getElementById("selected_page");'."\n";
+		$paginationSelect .= 'var value = myselect.options[myselect.selectedIndex].value;'."\n";
+		$paginationSelect .= 'document.location.href="index.php?rows-per-page=';
+		$paginationSelect .= $rowsPerPage;
+		$paginationSelect .= '&page-number="+value+"&';
+		$paginationSelect .= $action;
+		$paginationSelect .= '";'."\n";
+		$paginationSelect .= '}'."\n";
+		$paginationSelect .= '</script> ';
 
-								<script type="text/javascript">
-								function setPage(value)
-								{
-									var myselect = document.getElementById("selected_page");
-									var value = myselect.options[myselect.selectedIndex].value;
-									document.location.href="index.php?rows-per-page='
-									.$rowsPerPage.
-									'&page-number="
-									+value+
-									"&'.$action.'";
-								}
-								</script> ';
 		$this->setPaginationSelect($paginationSelect);
+
         return $this;		
-	}
-
-	private function generatePaginationButtons()
-	{
-		$paginationButtons = null;
-		$firstPage = 1;
-		$actualPage = $this->getPageNumber();
-		$lastPage = $this->getEnd();
-		$rowsTotalNumber = $this->getRowsTotalNumber();
-		$rowsPerPage = $this->getRowsPerPage();
-		$action = $this->action;
-		
-		if ($this->getPageNumber() > 1) 
-		{
-			$paginationButtons .= '<li>
-									<a href="index.php?rows-per-page='
-									.$rowsPerPage.
-									'&page-number='
-									.($firstPage).
-									'&'.$action.'">
-									<span aria-hidden="true">&laquo;'.FIRST.'</span>
-									<span class="sr-only">'.FIRST.'</span>
-									</a>
-									</li>';			
-		}
-		else
-		{
-			$paginationButtons .= '<li class="disabled">
-									<a href="">
-									<span aria-hidden="true">&laquo;'.FIRST.'</span>
-									<span class="sr-only">'.FIRST.'</span>
-									</a>
-									</li>';
-		}	
-
-		if ($this->getPageNumber() > 1) 
-		{
-			$paginationButtons .= '<li>
-									<a href="index.php?rows-per-page='
-									.$rowsPerPage.
-									'&page-number='
-									.($actualPage - 1).
-									'&'.$action.'">
-									<span aria-hidden="true">&laquo;</span>
-									<span class="sr-only">'.PREVIOUS.'</span>
-									</a>
-									</li>';			
-		}
-		else
-		{
-			$paginationButtons .= '<li class="disabled">
-									<a href="">
-									<span aria-hidden="true">&laquo;</span>
-									<span class="sr-only">'.PREVIOUS.'</span>
-									</a>
-									</li>';
-		}	
-
-		//// TEXT Page x of x
-		// $paginationButtons .= '<li><a href="">'
-		// 						.PAGE.$actualPage.OF.$lastPage.
-		// 						'</a></li>';		
-
-		//NUMBER BUTTONS:
-		for ($counter = 1; $counter <= $this->getEnd(); $counter++) 
-        { 
-        	if ($counter == $this->getPageNumber()) 
-        	{
-        		$paginationButtons .= '<li class="active">
-        								<a href="index.php?rows-per-page='
-										.$rowsPerPage.
-										'&page-number='
-        								.$counter.
-        								'&'.$action.'">'
-        								.$counter.
-        								'</a>
-        								</li>';  
-        	}
-        	else
-        	{
-	           $paginationButtons .= '<li>
-	           						<a href="index.php?rows-per-page='
-										.$rowsPerPage.
-										'&page-number='
-	           						.$counter.
-	           						'&'.$action.'">'
-	           						.$counter.
-	           						'</a>
-	           						</li>';        		
-        	}
-		
-        }
-
-		if ($this->getPageNumber() < $this->getEnd()) 
-		{
-			$paginationButtons .= '<li>
-									<a href="index.php?rows-per-page='
-									.$rowsPerPage.
-									'&page-number='
-									.($actualPage + 1).
-									'&'.$action.'">
-									<span aria-hidden="true">&raquo;</span>
-									<span class="sr-only">'.NEXT.'</span>
-									</a>
-									</li>';			
-		}
-		else
-		{
-			$paginationButtons .= '<li class="disabled">
-									<a href="">
-									<span aria-hidden="true">&raquo;</span>
-									<span class="sr-only">'.NEXT.'</span>
-									</a>
-									</li>';
-		}	
-
-		if ($this->getPageNumber() < $this->getEnd()) 
-		{
-			$paginationButtons .= '<li>
-									<a href="index.php?rows-per-page='
-									.$rowsPerPage.
-									'&page-number='
-									.($lastPage).
-									'&'.$action.'">
-									<span aria-hidden="true">'.LAST.'&raquo;</span>
-									<span class="sr-only">'.LAST.'</span>
-									</a>
-									</li>';			
-		}
-		else
-		{
-			$paginationButtons .= '<li class="disabled">
-									<a href="">
-									<span aria-hidden="true">'.LAST.'&raquo;</span>
-									<span class="sr-only">'.LAST.'</span>
-									</a>
-									</li>';
-		}	
-
-		////GO TO PAGE
-		// $paginationButtons .= '<br><br><form action="index.php" method="post" class="">
-  // 								<input style="width: 15%;" name="page-number" type="number" 
-  // 								min="1" max="'.$lastPage.'" value="'.$actualPage.'">
-  // 								<input name="rows-total-number" type="hidden" value="'.$rowsTotalNumber.'">
-  // 								<input type="submit" name="'.$action.'" value="'
-  // 								.APPLY.
-  // 								'" class="" id="submit">
-		// 						</form>';
-
-		////ROWS PER PAGE
-		// $paginationButtons .= '<br><br><form action="index.php" method="post" class="">
-  // 								'.ROWS_PER_PAGE.'
-  // 								<input style="width: 15%;" name="rows-per-page" type="number" 
-  // 								min="5" max="20" value="'.$rowsPerPage.'">
-  // 								<input name="page-number" type="hidden" value="'.$actualPage.'">
-  // 								<input name="rows-total-number" type="hidden" value="'.$rowsTotalNumber.'">
-  // 								<input type="submit" name="'.$action.'" value="'
-  // 								.APPLY.
-  // 								'" class="" id="submit">
-		// 						</form>';
-
-        $this->setPaginationButtons($paginationButtons);
-        return $this;	
 	}
 }
