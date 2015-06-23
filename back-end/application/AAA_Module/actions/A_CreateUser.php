@@ -24,8 +24,8 @@
 
 class A_CreateUser implements IAction
 {
-	public function execute()
-	{
+    public function execute()
+    {
         //FILTERS
         $filter = FilterFactory::create();        
 
@@ -34,7 +34,7 @@ class A_CreateUser implements IAction
         $name = $filter->filters($params->get('user-name'));
         $password = $params->get('user-password');
         $passwordConfirmation = $params->get('password-confirmation');
-        $encryptPassword = crypt($password);
+        $encryptPassword = password_hash($password, PASSWORD_DEFAULT);
         
         //VALIDATION
         $datahandler = DatahandlerFactory::create();
@@ -57,7 +57,6 @@ class A_CreateUser implements IAction
         //REDIRECTOR
         $redirector = RedirectorFactory::create();
         $redirector->redirectTo('index.php?A_ReadUsersPaginated');
-	}
+    }
 }
-
 ?>

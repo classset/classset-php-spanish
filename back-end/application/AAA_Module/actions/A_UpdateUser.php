@@ -24,14 +24,14 @@
 
 class A_UpdateUser implements IAction
 {
-	public function execute()
-	{
+    public function execute()
+    {
         //PARAMETERS
         $params = RequestParametersFactory::create();
         $name = $params->get('user-name');
         $password = $params->get('user-password');
         $passwordConfirmation = $params->get('password-confirmation');
-        $encryptPassword = crypt($password);
+        $encryptPassword = password_hash($password, PASSWORD_DEFAULT);
 
         $session = SessionFactory::create();
         $id = $session->get('user-id');
@@ -60,7 +60,6 @@ class A_UpdateUser implements IAction
         //REDIRECTOR
         $redirector = RedirectorFactory::create();
         $redirector->redirectTo('index.php?A_ReadUsersPaginated');
-	}
+    }
 }
-
 ?>

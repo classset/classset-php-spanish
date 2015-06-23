@@ -1,5 +1,7 @@
-default user : admin
+admin user : admin
 password: 12345
 
 testuser : test01
-password: 123
+password: test01
+
+
