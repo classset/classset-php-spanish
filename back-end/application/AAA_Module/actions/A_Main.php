@@ -36,7 +36,7 @@ class A_Main implements IAction
         //ACTIONS
         $actions = ActionFactory::create();
 
-        //REQUESTHANDLER AND SELECTACTIONKEY
+        //REQUESTHANDLER AND SELECTED ACTION KEY
         $requestHandler = RequestHandlerFactory::create();
         $selectedActionKey = $requestHandler->getSelectedActionKey();
 

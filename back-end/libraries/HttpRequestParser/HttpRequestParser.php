@@ -63,11 +63,19 @@ class HttpRequestParser implements IParser
     }
 
 
-	public function parse($input)
-	{
-		$allKeys = array_keys($input);
-    	return end($allKeys);       
-	}
+    public function parse($input)
+    {
+        $actionKey = null;
+        if(empty($input['claction']))
+        {
+            $allKeys = array_keys($input);
+            $actionKey = end($allKeys);
+        }
+        else
+        {
+            $actionKey = $input['claction'];
+        }
+        return $actionKey;
+    }
 }
-
 ?>
