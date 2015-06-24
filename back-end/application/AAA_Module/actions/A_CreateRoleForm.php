@@ -24,11 +24,10 @@
 
 class A_CreateRoleForm implements IAction
 {
-	public function execute()
-	{
+    public function execute()
+    {
         $view = ViewFactory::create('V_CreateRoleForm');
         $view->display();
     }
 }
-
 ?>

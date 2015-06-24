@@ -24,39 +24,33 @@
 
 class A_Authorize implements IAction
 {
-	public function execute()
-	{
-		//Session User ID
-		$session = SessionFactory::create();
-		$userId = $session->get('session-user-id');
+    public function execute()
+    {
+        //Session User ID
+        $session = SessionFactory::create();
+        $userId = $session->get('session-user-id');
 
-		//Request Handler
-		$requestHandler = RequestHandlerFactory::create();
-		$selectedActionKey = $requestHandler->getSelectedActionKey();
-		
-		//Datahandler
-		$datahandler = DatahandlerFactory::create('D_ReadAllowedRoles');
-		$datahandler->setInData
-							(
-								array
-								(
-									'action-name' => $selectedActionKey,  
-									'user-id' => $userId,
-									'admin-role-id' => 1
-								)
-							);
-							
-		$allowedRoles = $datahandler->getOutData(); 
+        //Request Handler
+        $requestHandler = RequestHandlerFactory::create();
+        $selectedActionKey = $requestHandler->getSelectedActionKey();
 
-		if($allowedRoles)
-		{
-			$session->set("authorized", true);
-		}
-		else
-		{
-			$session->set("authorized", false);
-		}
-	}
+        //Datahandler
+        $datahandler = DatahandlerFactory::create('D_ReadAllowedRoles');
+
+        $datahandler->setInData(array('action-name' => $selectedActionKey,
+            						  'user-id' => $userId,
+            						  'admin-role-id' => 1));	
+            						  			
+        $allowedRoles = $datahandler->getOutData();
+
+        if($allowedRoles)
+        {
+        	$session->set("authorized", true);
+        }
+        else
+        {
+        	$session->set("authorized", false);
+        }
+    }
 }
-
 ?>

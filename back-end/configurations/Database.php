@@ -61,7 +61,7 @@ class Database implements IDatabase
     public function connect()
     {
         $dbh = DatabaseHandler::getInstance();
-        $dbh->filePath = __DIR__.'/aaa_database.db3';
+		$dbh->filePath = __DIR__.'../../database/aaa_database.db3';
         $dbh -> openDBMS('sqlite');
         return $dbh;
     }
