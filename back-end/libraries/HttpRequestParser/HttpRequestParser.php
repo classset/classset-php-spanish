@@ -62,7 +62,6 @@ class HttpRequestParser implements IParser
         return self::$_instance;
     }
 
-
     public function parse($input)
     {
         $actionKey = null;
