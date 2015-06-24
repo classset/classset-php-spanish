@@ -46,5 +46,4 @@ class A_DeleteUserConfirmation implements IAction
         unset($datahandler, $view);
     }
 }
-
 ?>

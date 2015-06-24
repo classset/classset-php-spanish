@@ -24,15 +24,14 @@
 
 class A_Logout implements IAction
 {
-	public function execute()
-	{
-		$session = SessionFactory::create();
-		$session->destroy();
+    public function execute()
+    {
+        $session = SessionFactory::create();
+        $session->destroy();
 
-		$view = ViewFactory::create('V_Logout');
-       	$view->display();
+        $view = ViewFactory::create('V_Logout');
+        $view->display();
         exit();
-	}
+    }
 }
-
 ?>

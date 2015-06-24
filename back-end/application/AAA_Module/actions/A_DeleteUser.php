@@ -24,8 +24,8 @@
 
 class A_DeleteUser implements IAction
 {
-	public function execute()
-	{
+    public function execute()
+    {
         $session = SessionFactory::create();
         $id = $session->get('user-id');
 
@@ -34,7 +34,6 @@ class A_DeleteUser implements IAction
 
         $redirector = RedirectorFactory::create();
         $redirector->redirectTo('index.php?A_ReadUsersPaginated');
-	}
+    }
 }
-
 ?>
