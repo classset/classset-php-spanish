@@ -27,7 +27,7 @@ class A_CreateUser implements IAction
     public function execute()
     {
         //FILTERS
-        $filter = FilterFactory::create();        
+        $filter = FilterFactory::create();
 
         //PARAMETERS
         $params = RequestParametersFactory::create();
@@ -35,7 +35,7 @@ class A_CreateUser implements IAction
         $password = $params->get('user-password');
         $passwordConfirmation = $params->get('password-confirmation');
         $encryptPassword = password_hash($password, PASSWORD_DEFAULT);
-        
+
         //VALIDATION
         $datahandler = DatahandlerFactory::create();
         $datahandler['D_ReadUserByName']->setInData($name);
@@ -45,14 +45,8 @@ class A_CreateUser implements IAction
         $validator->ifFalse( ($password == $passwordConfirmation) )->respond(PASSWORDS_NOT_MATCH);
 
         //DATAHANDLER
-        $datahandler['D_CreateUser']->setInData
-                    (
-                        array
-                        (
-                            "name" => "$name", 
-                            "password" => "$encryptPassword"
-                        )
-                    );
+        $datahandler['D_CreateUser']->setInData(array("name" => "$name", 
+                                                        "password" => "$encryptPassword"));
 
         //REDIRECTOR
         $redirector = RedirectorFactory::create();

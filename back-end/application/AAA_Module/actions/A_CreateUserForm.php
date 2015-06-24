@@ -24,11 +24,10 @@
 
 class A_CreateUserForm implements IAction
 {
-	public function execute()
-	{
+    public function execute()
+    {
         $view = ViewFactory::create('V_CreateUserForm');
         $view->display();
     }
 }
-
 ?>

@@ -24,8 +24,8 @@
 
 class A_DeleteRole implements IAction
 {
-	public function execute()
-	{
+    public function execute()
+    {
         $session = SessionFactory::create();
         $id = $session->get('role-id');
 
@@ -34,7 +34,6 @@ class A_DeleteRole implements IAction
 
         $redirector = RedirectorFactory::create();
         $redirector->redirectTo('index.php?A_ReadRolesPaginated');
-	}
+    }
 }
-
 ?>
