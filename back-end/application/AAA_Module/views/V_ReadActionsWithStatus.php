@@ -82,10 +82,10 @@ class V_ReadActionsWithStatus implements IView, IDataset
         $dom->whereIdIs('tbody')->insertNode($trs); 
 
         $id = $session->get('selected-role-id');
-        $paginator = PaginatorFactory::create();
-        $paginator->action = "selected-role-id=".$id."&A_ReadActionsWithStatus";
-        $dom->whereIdIs('ul-pagination')
-            ->insertNode($paginator->paginationSelect);
+        // $paginator = PaginatorFactory::create();
+        // $paginator->action = "selected-role-id=".$id."&A_ReadActionsWithStatus";
+        // $dom->whereIdIs('ul-pagination')
+        //     ->insertNode($paginator->paginationSelect);
 
         $dom->display();
     }
