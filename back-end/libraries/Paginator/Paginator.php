@@ -65,9 +65,18 @@ class Paginator implements IPaginator
         return $this->session->get("page-number");
     }
     
-    private function setPageNumber($pageNumber = 1)
+    private function setPageNumber($pageNumber)
     {
-        $this->session->set("page-number", $pageNumber);
+        if (!isset($pageNumber)) 
+        {
+            $pageNumber=1;
+            $this->session->set("page-number", $pageNumber);
+        }
+        else
+        {
+            $this->session->set("page-number", $pageNumber);
+        }      
+        
         return $this;
     }
 
@@ -76,8 +85,12 @@ class Paginator implements IPaginator
         return $this->session->get("rows-per-page");
     }
     
-    private function setRowsPerPage($rowsPerPage = 5)
+    private function setRowsPerPage($rowsPerPage)
     {
+        if (!isset($rowsPerPage) or $rowsPerPage==0) 
+        {
+            $rowsPerPage=5;
+        }
         $this->session->set("rows-per-page", $rowsPerPage);
         return $this;
     }
