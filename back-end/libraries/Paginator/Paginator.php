@@ -211,23 +211,25 @@ class Paginator implements IPaginator
         {
             $paginationSelect .= '<strong><h1>'.NO_RESULTS.'</h1></strong><br><br>';
         }
-
-        $paginationSelect .= '<select id="selected_page" name="page_select" ';
-        $paginationSelect .= 'class="form-control" onchange="setPage(this.value)">'."\n";
-        $paginationSelect .= $options;
-        $paginationSelect .= '</select>'."\n";
-        $paginationSelect .= '<script type="text/javascript">'."\n";
-        $paginationSelect .= 'function setPage(value)'."\n";
-        $paginationSelect .= '{'."\n";
-        $paginationSelect .= 'var myselect = document.getElementById("selected_page");'."\n";
-        $paginationSelect .= 'var value = myselect.options[myselect.selectedIndex].value;'."\n";
-        $paginationSelect .= 'document.location.href="index.php?rows-per-page=';
-        $paginationSelect .= $rowsPerPage;
-        $paginationSelect .= '&page-number="+value+"&';
-        $paginationSelect .= $action;
-        $paginationSelect .= '";'."\n";
-        $paginationSelect .= '}'."\n";
-        $paginationSelect .= '</script> ';
+        else
+        {
+            $paginationSelect .= '<select id="selected_page" name="page_select" ';
+            $paginationSelect .= 'class="form-control" onchange="setPage(this.value)">'."\n";
+            $paginationSelect .= $options;
+            $paginationSelect .= '</select>'."\n";
+            $paginationSelect .= '<script type="text/javascript">'."\n";
+            $paginationSelect .= 'function setPage(value)'."\n";
+            $paginationSelect .= '{'."\n";
+            $paginationSelect .= 'var myselect = document.getElementById("selected_page");'."\n";
+            $paginationSelect .= 'var value = myselect.options[myselect.selectedIndex].value;'."\n";
+            $paginationSelect .= 'document.location.href="index.php?rows-per-page=';
+            $paginationSelect .= $rowsPerPage;
+            $paginationSelect .= '&page-number="+value+"&';
+            $paginationSelect .= $action;
+            $paginationSelect .= '";'."\n";
+            $paginationSelect .= '}'."\n";
+            $paginationSelect .= '</script> ';
+        }
 
         $this->setPaginationSelect($paginationSelect);
 
