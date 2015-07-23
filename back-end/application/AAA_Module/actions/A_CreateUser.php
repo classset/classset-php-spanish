@@ -26,12 +26,9 @@ class A_CreateUser implements IAction
 {
     public function execute()
     {
-        //FILTERS
-        $filter = FilterFactory::create();
-
         //PARAMETERS
         $params = RequestParametersFactory::create();
-        $name = $filter->filters($params->get('user-name'));
+        $name = $params->get('user-name');
         $password = $params->get('user-password');
         $passwordConfirmation = $params->get('password-confirmation');
         $encryptPassword = password_hash($password, PASSWORD_DEFAULT);

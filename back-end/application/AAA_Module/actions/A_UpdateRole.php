@@ -24,8 +24,8 @@
 
 class A_UpdateRole implements IAction
 {
-	public function execute()
-	{
+    public function execute()
+    {
         //PARAMETERS
         $params = RequestParametersFactory::create();
         $name = $params->get('role-name');
@@ -34,14 +34,6 @@ class A_UpdateRole implements IAction
         $session = SessionFactory::create();
         $id = $session->get('role-id');
 
-        //FILTERS
-        $filter = FilterFactory::create();
-        $filteredName = $filter->filters($name);
-        $filteredDescription = $filter->filters($description);
-
-        //VALIDATOR
-        $validator = ValidatorFactory::create();
-
         //DATASET
         $datahandler = DatahandlerFactory::create('D_UpdateRole');
         $datahandler->setInData
@@ -49,15 +41,14 @@ class A_UpdateRole implements IAction
                         array
                         (
                             "id" => "$id",
-                            "name" => "$filteredName", 
-                            "description" => "$filteredDescription"
+                            "name" => "$name", 
+                            "description" => "$description"
                         )
                     );
 
         //REDIRECTOR
         $redirector = RedirectorFactory::create();
         $redirector->redirectTo('index.php?A_ReadRolesPaginated');
-	}
+    }
 }
-
 ?>

@@ -39,12 +39,10 @@ class A_Authenticate implements IAction
             $params = RequestParametersFactory::create();
             $username = $params->get('user-name');
             $userpassword = $params->get('user-password');
-            $filter = FilterFactory::create();
-            $filteredUsername = $filter->filters($username);
 
             //DATAHANDLER
             $datahandler = DatahandlerFactory::create('D_ReadUserByName');
-            $datahandler->setInData($filteredUsername);
+            $datahandler->setInData($username);
             $existingUser = $datahandler->getOutData();    
 
             //PASSWORD VERIFY

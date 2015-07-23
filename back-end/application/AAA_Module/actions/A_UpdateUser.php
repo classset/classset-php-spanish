@@ -36,10 +36,6 @@ class A_UpdateUser implements IAction
         $session = SessionFactory::create();
         $id = $session->get('user-id');
 
-        //FILTERS
-        $filter = FilterFactory::create();
-        $filter->filters($name);
-
         //VALIDATOR
         $validator = ValidatorFactory::create();
         $validator->ifFalse( ($password == $passwordConfirmation) )

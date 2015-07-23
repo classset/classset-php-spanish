@@ -26,7 +26,10 @@ class SqliteEscapeFilter implements IFilter
 {	
 	public function filters($str)
 	{
-		return SQLite3::escapeString($str);
+		$data = trim(SQLite3::escapeString($str));
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
 	}
 }
 

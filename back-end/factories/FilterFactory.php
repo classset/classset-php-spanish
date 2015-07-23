@@ -24,10 +24,10 @@
 
 class FilterFactory implements IFactory
 {	
-    public static function create($id = "SqliteScape")
+    public static function create($id = "SqliteEscape")
     {
-        if($id == "SqliteScape") return new SqliteEscapeFilter;
-        if($id == "PostgreScape") return new PostgreEscapeFilter;
+		if($id == "SqliteEscape") return new SqliteEscapeFilter;
+        if($id == "PostgreEscape") return new PostgreEscapeFilter;
         
         $messenger = MessengerFactory::create();
         $messenger->say('Null Filter');

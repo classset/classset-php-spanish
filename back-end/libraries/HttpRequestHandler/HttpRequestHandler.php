@@ -58,7 +58,7 @@ class HttpRequestHandler implements IRequestHandler
         );
     }
 
-    public static function getInstance(IAction $mainAction, IParser $parser)
+    public static function createWith(IAction $mainAction, IParser $parser)
     {
         if (!(self::$_instance instanceof self))
         {

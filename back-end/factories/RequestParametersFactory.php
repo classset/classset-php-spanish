@@ -27,7 +27,7 @@ class RequestParametersFactory implements IFactory
     public static function create($id = "HttpRequestParameters")
     {
   	    if($id == "HttpRequestParameters") 
-            return HttpRequestParameters::getInstance($_REQUEST);
+            return HttpRequestParameters::createWith($_REQUEST, FilterFactory::create());
     
         $messenger = MessengerFactory::create();
         $messenger->say('Null Parameters');

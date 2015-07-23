@@ -31,13 +31,9 @@ class A_CreateRole implements IAction
         $name = $params->get('role-name');
         $description = $params->get('role-description');
 
-        //FILTERS
-        $filter = FilterFactory::create();
-        $filteredName = $filter->filters($name);
-
         //VALIDATOR (EXISTING ROLE)
         $datahandler = DatahandlerFactory::create();
-        $datahandler['D_ReadRoleByName']->setInData($filteredName);
+        $datahandler['D_ReadRoleByName']->setInData($name);
         $existingRole = $datahandler['D_ReadRoleByName']->getOutData();
         $validator = ValidatorFactory::create();
         $validator->ifFalse( ($existingRole['name'] == null) )

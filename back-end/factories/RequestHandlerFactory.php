@@ -27,7 +27,7 @@ class RequestHandlerFactory implements IFactory
     public static function create($id = "HttpRequestHandler")
     {
         if($id == "HttpRequestHandler") 
-            return HttpRequestHandler::getInstance(new A_Main, HttpRequestParser::getInstance());
+            return HttpRequestHandler::createWith(new A_Main, HttpRequestParser::createWith(FilterFactory::create()));
 
         $messenger = MessengerFactory::create();
         $messenger->say('Null RequestHandler');

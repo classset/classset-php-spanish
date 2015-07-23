@@ -26,15 +26,19 @@
 class HttpRequestParameters implements IParameters
 {
     private static $_instance;
-    private $_parameters = array();
-    private $_request = array();
+    private $parameters = array();
+    private $request = array();
+    private $filter;
 
-    private function __construct($request)
+    private function __construct($request, $filter)
     {
-        $this->_request = $request;
-        foreach ($this->_request as $key => $value) 
+        $this->filter = $filter;
+        $this->request = $request;
+        foreach ($this->request as $key => $value) 
         {
-            $this->_parameters[$key] = $value;
+            $filteredKey = $this->filter->filters($key);
+            $filteredValue = $this->filter->filters($value);
+            $this->parameters[$filteredKey] = $filteredValue;
         }
     }
 
@@ -58,20 +62,28 @@ class HttpRequestParameters implements IParameters
         );
     }
 
-    public static function getInstance($request)
+    private function escape($str)
+    {
+        $data = trim($str);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
+
+    public static function createWith($request, $filter)
     {
         if (!(self::$_instance instanceof self))
         {
-            self::$_instance=new self($request);
+            self::$_instance=new self($request, $filter);
         }
         return self::$_instance;
     }
 
     public function get($key)
     {
-        if (isset($this -> _parameters[$key]))
+        if (isset($this->parameters[$key]))
         {
-            return $this -> _parameters[$key];
+            return $this->parameters[$key];
         }
         else
         {
@@ -81,9 +93,9 @@ class HttpRequestParameters implements IParameters
 
     public function getAll()
     {
-        if (isset($this -> _parameters))
+        if (isset($this->parameters))
         {
-            return $this -> _parameters;
+            return $this->parameters;
         }
         else
         {
