@@ -23,14 +23,12 @@
  **/
 
 class PostgreEscapeFilter implements IFilter
-{	
-	public function filters($str)
-	{
-		$data = trim(pg_escape_string($str));
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
+{   
+    public function filters($str)
+    {
+        $data = trim(pg_escape_string($str));
         return $data;
-	}
+    }
 }
 
 ?>

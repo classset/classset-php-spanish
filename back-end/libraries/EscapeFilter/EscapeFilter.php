@@ -24,8 +24,7 @@ class EscapeFilter implements IFilter
     public function filters($str)
     {
         $data = trim($str);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
+        $data = str_replace("'", "''", $data);
         return $data;
     }
 }

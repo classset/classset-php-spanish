@@ -23,14 +23,12 @@
  **/
 
 class SqliteEscapeFilter implements IFilter
-{	
-	public function filters($str)
-	{
-		$data = trim(SQLite3::escapeString($str));
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
+{   
+    public function filters($str)
+    {
+        $data = trim(SQLite3::escapeString($str));
         return $data;
-	}
+    }
 }
 
 ?>
