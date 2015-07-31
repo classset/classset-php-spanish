@@ -1,6 +1,7 @@
 <?php
 /**
- *  Copyright 2013 Gabriel Nicolás González Ferreira <gabrielinuz@gmail.com> 
+ *  Copyright 2013 Pablo Daniel Spennato <pdspennato@gmail.com> 
+ *  and 2013 Gabriel Nicolás González Ferreira <gabrielinuz@gmail.com>
  *
  *  Permission is hereby granted, free of charge, to any person obtaining
  *  a copy of this software and associated documentation files (the
@@ -24,9 +25,20 @@
     
 class BasicEncryptor implements IEncryptor
 {
+	public function __construct()
+	{
+		if (!defined('AUTH_HASH_METHOD')) {  define('AUTH_HASH_METHOD', 'sha256');}
+		if (!defined('AUTH_HASH_KEY')) {  define('AUTH_HASH_KEY', 'c3M@eo|');}
+	}
+
     public function encrypt($text)
     {
-        return crypt($text);
+        return hash_hmac(AUTHHASHMETHOD, $text, AUTHHASHKEY);
+    }
+
+    public function verify($input_password_hash, $stored_password_hash)
+    {
+    	return (md5($input_password_hash) === md5($stored_password_hash));
     }
 }
 ?>

@@ -27,8 +27,6 @@ class FilterFactory implements IFactory
     public static function create($id = "GenericEscapeFilter")
     {
         if($id == "GenericEscapeFilter") return new EscapeFilter;
-        if($id == "SqliteEscapeFilter") return new SqliteEscapeFilter;
-        if($id == "PostgreEscapeFilter") return new PostgreEscapeFilter;
         
         $messenger = MessengerFactory::create();
         $messenger->say('Null Filter');

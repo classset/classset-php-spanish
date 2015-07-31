@@ -1,7 +1,7 @@
 <?php
 /**
  *  Copyright 2013 Gabriel Nicolás González Ferreira <gabrielinuz@gmail.com> 
- *
+ *  and 2015 Pablo Daniel Spennato <pdspennato@gmail.com> 
  *  Permission is hereby granted, free of charge, to any person obtaining
  *  a copy of this software and associated documentation files (the
  *  "Software"), to deal in the Software without restriction, including
@@ -24,274 +24,289 @@
 
 class DatabaseHandler implements IDatabaseHandler
 {
-	/* attributes: */
-	private static $instance;
-	private $host;
-	private $port;
-	private $name;
-	private $user;
-	private $password;
-	private $filePath;
-	private $databaseObject;
-	private $databaseLink;
+    /* attributes: */
+    private static $instance;
+    private $host;
+    private $port;
+    private $name;
+    private $user;
+    private $password;
+    private $filePath;
+    private $databaseObject;
+    private $databaseLink;
 
-	/* methods: */
+    /* methods: */
 
-	private function __construct()
-	{ 
-	}
+    private function __construct()
+    { 
+    }
 
-	//to_prevent cloned:
-	private function __clone()
-	{
-		trigger_error
-		(
-			'Invalid Operation: You can not clone an instance of '
-			. get_class($this) ." class.", E_USER_ERROR 
-		);
-	}
+    //to_prevent cloned:
+    private function __clone()
+    {
+        trigger_error
+        (
+            'Invalid Operation: You can not clone an instance of '
+            . get_class($this) ." class.", E_USER_ERROR 
+        );
+    }
 
-	//to prevent deserialization:
-	private function __wakeup()
-	{
-		trigger_error
-		(
-			'Invalid Operation: You can not deserialize an instance of '
-			. get_class($this) ." class."
-		);
-	}
+    //to prevent deserialization:
+    private function __wakeup()
+    {
+        trigger_error
+        (
+            'Invalid Operation: You can not deserialize an instance of '
+            . get_class($this) ." class."
+        );
+    }
 
-	public static function getInstance()
-	{
-		if (!(self::$instance instanceof self))
-		{
-			self::$instance=new self();
-		}
-		return self::$instance;
-	}
+    public static function getInstance()
+    {
+        if (!(self::$instance instanceof self))
+        {
+            self::$instance=new self();
+        }
+        return self::$instance;
+    }
 
-	/*FOR PROPERTIES*/
-	public function __get($name)
-	{
-		if (method_exists($this, ($method = 'get'.ucfirst($name))))
-		{
-			return $this->$method();
-		}
-		else return;
-	}
+    /*FOR PROPERTIES*/
+    public function __get($name)
+    {
+        if (method_exists($this, ($method = 'get'.ucfirst($name))))
+        {
+            return $this->$method();
+        }
+        else return;
+    }
 
-	public function __set($name, $value)
-	{
-		if (method_exists($this, ($method = 'set'.ucfirst($name))))
-		{
-			$this->$method($value);
-		}
-	}
-	/*FOR PROPERTIES*/
-	
+    public function __set($name, $value)
+    {
+        if (method_exists($this, ($method = 'set'.ucfirst($name))))
+        {
+            $this->$method($value);
+        }
+    }
+    /*FOR PROPERTIES*/
+    
 
-	/*GETTERS AND SETTERS*/
-	private function getHost()
-	{
-		return $this->host;
-	}
+    /*GETTERS AND SETTERS*/
+    private function getHost()
+    {
+        return $this->host;
+    }
 
-	private function setHost($host)
-	{
-		$this->host = $host;
-		return $this;
-	}
+    private function setHost($host)
+    {
+        $this->host = $host;
+        return $this;
+    }
 
-	private function getPort()
-	{
-		return $this->port;
-	}
+    private function getPort()
+    {
+        return $this->port;
+    }
 
-	private function setPort($port)
-	{
-		$this->port = $port;
-		return $this;
-	}
+    private function setPort($port)
+    {
+        $this->port = $port;
+        return $this;
+    }
 
-	private function getName()
-	{
-		return $this->name;
-	}
+    private function getName()
+    {
+        return $this->name;
+    }
 
-	private function setName($name)
-	{
-		$this->name = $name;
-		return $this;
-	}
+    private function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
 
-	private function getUser()
-	{
-		return $this->user;
-	}
+    private function getUser()
+    {
+        return $this->user;
+    }
 
-	private function setUser($user)
-	{
-		$this->user = $user;
-		return $this;
-	}
+    private function setUser($user)
+    {
+        $this->user = $user;
+        return $this;
+    }
 
-	private function getPassword()
-	{
-		return $this->password;
-	}
+    private function getPassword()
+    {
+        return $this->password;
+    }
 
-	private function setPassword($password)
-	{
-		$this->password = $password;
-		return $this;
-	}
+    private function setPassword($password)
+    {
+        $this->password = $password;
+        return $this;
+    }
 
-	private function getFilePath()
-	{
-		return $this->filePath;
-	}
+    private function getFilePath()
+    {
+        return $this->filePath;
+    }
 
-	private function setFilePath($filePath)
-	{
-		$this->filePath = $filePath;
-		return $this;
-	}
-	/*GETTERS AND SETTERS*/
+    private function setFilePath($filePath)
+    {
+        $this->filePath = $filePath;
+        return $this;
+    }
+    /*GETTERS AND SETTERS*/
 
-	//LOAD DATABASE SYSTEM
+    //LOAD DATABASE SYSTEM
 
-	//INTERFACE PUBLIC METHOD
-	public function openDBMS($systemName)
-	{
-		$ucSystemName = ucfirst($systemName);
+    //INTERFACE PUBLIC METHOD
+    public function openDBMS($systemName)
+    {
+        $ucSystemName = ucfirst($systemName);
 
-		require_once "{$ucSystemName}Database.php";
+        require_once "{$ucSystemName}Database.php";
 
-		$databaseClass = "{$ucSystemName}Database";
-		$this -> databaseObject = new $databaseClass;
-		$this -> databaseLink = $this -> databaseObject -> openDatabase();
-		return $this;
-	}
-	//INTERFACE PUBLIC METHOD
+        $databaseClass = "{$ucSystemName}Database";
+        $this -> databaseObject = new $databaseClass;
+        $this -> databaseLink = $this -> databaseObject -> openDatabase();
+        return $this;
+    }
+    //INTERFACE PUBLIC METHOD
 
-	private function execQuery($query)
-	{ 
-		try 
-		{
-			$this -> databaseLink -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$databaseReply = $this -> databaseLink -> prepare($query);
-			$databaseReply -> execute();
-		}
+    private function bindParams($query, $params)
+    {
+        if (!empty($params))
+        {
+            foreach ($params as $key => $value)
+            {
+                $query->bindValue(':'.$key,$value);
+            }
+        }
+        return $query;
+    }
 
-		catch(PDOException $exception) 
-		{
-			//TO DO: manage exception and log
-			echo $exception -> getMessage();  
-		}
+    private function execQuery($query, $params = null)
+    { 
+        try 
+        {
+            $this -> databaseLink -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $databaseReply = $this -> databaseLink -> prepare($query);
+            $dataBaseReply = $this -> bindParams( $databaseReply, $params);
+            $databaseReply -> execute();
+        }
 
-		return $databaseReply;
-	}
+        catch(PDOException $exception) 
+        {
+            //TO DO: manage exception and log
+            echo $exception -> getMessage();  
+        }
 
-	private function execQueriesInTransaction($queries)
-	{ 
-		try 
-		{
-			$this -> databaseLink -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$this -> databaseLink -> beginTransaction();
-			foreach ($queries as $query) 
-			{
-				$databaseReply = $this -> databaseLink -> prepare($query);
-				$databaseReply -> execute();
-			}
-			$this -> databaseLink -> commit();
-		}
+        return $databaseReply;
+    }
 
-		catch(PDOException $exception) 
-		{
-			//TO DO: manage exception and log
-			echo $exception -> getMessage();  
-		}
+    private function execQueriesInTransaction($queries, $params = null)
+    { 
+        try 
+        {
+            $this -> databaseLink -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this -> databaseLink -> beginTransaction();
+            foreach ($queries as $key => $query) 
+            {
+                $databaseReply = $this -> databaseLink -> prepare($query);
+                $param = (empty($params)) ? null : $params[$key];
+                $dataBaseReply = $this -> bindParams( $databaseReply, $param);
+                $databaseReply -> execute();
+            }
+            $this -> databaseLink -> commit();
+        }
 
-		return $databaseReply;
-	}		
+        catch(PDOException $exception) 
+        {
+            //TO DO: manage exception and log
+            echo $exception -> getMessage();  
+        }
 
-	private function getResultingRowOnArray($databaseReply)
-	{
-		$row = $databaseReply -> fetch(PDO::FETCH_ASSOC);
-		return $row;
-	}
+        return $databaseReply;
+    }       
 
-	private function getResultingRowsOnArrayOfArrays($databaseReply)
-	{
-		$row = $databaseReply -> fetchAll(PDO::FETCH_ASSOC);
-		return $row;
-	}
+    private function getResultingRowOnArray($databaseReply)
+    {
+        $row = $databaseReply -> fetch(PDO::FETCH_ASSOC);
+        return $row;
+    }
 
-	private function closeDatabase($databaseLink, $databaseReply)
-	{
-		$databaseLink = null;
-		$databaseReply = null;
-	}
+    private function getResultingRowsOnArrayOfArrays($databaseReply)
+    {
+        $row = $databaseReply -> fetchAll(PDO::FETCH_ASSOC);
+        return $row;
+    }
 
-	//INTERFACE PUBLIC METHODS	
-	public function SQLQuery($query)
-	{
-		$databaseLink = $this -> databaseLink;
-		$reply = $this-> execQuery($query);
-		$this -> closeDatabase($databaseLink, $reply);
-	}
+    private function closeDatabase($databaseLink, $databaseReply)
+    {
+        $databaseLink = null;
+        $databaseReply = null;
+    }
 
-	public function SQLFetchArray($query)
-	{
-		$databaseLink = $this -> databaseLink;
-		$reply = $this -> execQuery($query);
-		$resultRow = $this -> getResultingRowOnArray($reply);
-		$this -> closeDatabase($databaseLink, $reply);
-		return $resultRow;
-	}
+    //INTERFACE PUBLIC METHODS  
+    public function SQLQuery($query, $params = null)
+    {
+        $databaseLink = $this -> databaseLink;
+        $reply = $this-> execQuery($query, $params);
+        $this -> closeDatabase($databaseLink, $reply);
+    }
 
-	public function SQLFetchAllArray($query)
-	{
-		$databaseLink = $this -> databaseLink;
-		$reply = $this -> execQuery($query);
-		$resultRow = $this -> getResultingRowsOnArrayOfArrays($reply);
-		$this -> closeDatabase($databaseLink, $reply);
-		return $resultRow;
-	}
+    public function SQLFetchArray($query, $params = null)
+    {
+        $databaseLink = $this -> databaseLink;
+        $reply = $this -> execQuery($query, $params);
+        $resultRow = $this -> getResultingRowOnArray($reply);
+        $this -> closeDatabase($databaseLink, $reply);
+        return $resultRow;
+    }
 
-	/*FOR TRANSACTIONS*/
-	public function SQLTransaction($queriesOnArray)
-	{
-		$databaseLink = $this -> databaseLink;
-		$reply = $this -> execQueriesInTransaction($queriesOnArray);
-		$this -> closeDatabase($databaseLink, $reply);
-	}
+    public function SQLFetchAllArray($query, $params = null)
+    {
+        $databaseLink = $this -> databaseLink;
+        $reply = $this -> execQuery($query, $params);
+        $resultRow = $this -> getResultingRowsOnArrayOfArrays($reply);
+        $this -> closeDatabase($databaseLink, $reply);
+        return $resultRow;
+    }
 
-	public function SQLTransactionArray($queriesOnArray)
-	{
-		$databaseLink = $this -> databaseLink;
-		$reply = $this -> execQueriesInTransaction($queriesOnArray);
-		$resultRow = $this -> getResultingRowOnArray($reply);
-		$this -> closeDatabase($databaseLink, $reply);
-		return $resultRow;
-	}
+    /*FOR TRANSACTIONS*/
+    public function SQLTransaction($queriesOnArray)
+    {
+        $databaseLink = $this -> databaseLink;
+        $reply = $this -> execQueriesInTransaction($queriesOnArray);
+        $this -> closeDatabase($databaseLink, $reply);
+    }
 
-	public function SQLTransactionAllArray($queriesOnArray)
-	{
-		$databaseLink = $this -> databaseLink;
-		$reply = $this -> execQueriesInTransaction($queriesOnArray);
-		$resultRow = $this -> getResultingRowsOnArrayOfArrays($reply);
-		$this -> closeDatabase($databaseLink, $reply);
-		return $resultRow;    
-	}
-	/*FOR TRANSACTIONS*/
-	//INTERFACE PUBLIC METHODS
+    public function SQLTransactionArray($queriesOnArray)
+    {
+        $databaseLink = $this -> databaseLink;
+        $reply = $this -> execQueriesInTransaction($queriesOnArray);
+        $resultRow = $this -> getResultingRowOnArray($reply);
+        $this -> closeDatabase($databaseLink, $reply);
+        return $resultRow;
+    }
 
-	public function __destruct()
-	{
-		unset($this -> databaseLink);
-	}
+    public function SQLTransactionAllArray($queriesOnArray)
+    {
+        $databaseLink = $this -> databaseLink;
+        $reply = $this -> execQueriesInTransaction($queriesOnArray);
+        $resultRow = $this -> getResultingRowsOnArrayOfArrays($reply);
+        $this -> closeDatabase($databaseLink, $reply);
+        return $resultRow;    
+    }
+    /*FOR TRANSACTIONS*/
+    //INTERFACE PUBLIC METHODS
 
-}	
+    public function __destruct()
+    {
+        unset($this -> databaseLink);
+    }
+
+}   
 
 ?>

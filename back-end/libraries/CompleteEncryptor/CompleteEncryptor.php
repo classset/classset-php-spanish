@@ -21,14 +21,17 @@
  *  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  *  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  **/
-
-class PostgreEscapeFilter implements IFilter
-{   
-    public function filters($str)
+    
+class CompleteEncryptor implements IEncryptor
+{
+    public function encrypt($text)
     {
-        $data = trim(pg_escape_string($str));
-        return $data;
+        return password_hash($text, PASSWORD_DEFAULT);
+    }
+
+    public function verify($input_password_hash, $stored_password_hash)
+    {
+    	return (password_verify($input_password_hash, $stored_password_hash));
     }
 }
-
 ?>

@@ -1,7 +1,7 @@
 <?php
 /**
  *  Copyright 2013 Pablo Daniel Spennato <pdspennato@gmail.com> 
- *  Copyright 2013 Gabriel Nicolás González Ferreira <gabrielinuz@gmail.com>
+ *  and 2013 Gabriel Nicolás González Ferreira <gabrielinuz@gmail.com>
  *
  *  Permission is hereby granted, free of charge, to any person obtaining
  *  a copy of this software and associated documentation files (the
@@ -34,12 +34,7 @@ class HttpRequestParameters implements IParameters
     {
         $this->filter = $filter;
         $this->request = $request;
-        foreach ($this->request as $key => $value) 
-        {
-            $filteredKey = $this->filter->filters($key);
-            $filteredValue = $this->filter->filters($value);
-            $this->parameters[$filteredKey] = $filteredValue;
-        }
+        $this->escape_request_parameters();
     }
 
     //to_prevent cloned:
@@ -62,12 +57,27 @@ class HttpRequestParameters implements IParameters
         );
     }
 
-    private function escape($str)
+    private function escape_request_parameters()
     {
-        $data = trim($str);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        return $data;
+       foreach ($this->request as $key => $value)
+       {
+            $filteredKey = $this->filter->filters($key);
+            if (is_array($value))
+            {
+                $filteredValue = array();
+                for ($i=0; $i < count($value); $i++) 
+                {
+                   $val = $this->filter->filters($value[$i]);
+                   $filteredValue[$i] = $val;
+                }
+                $this->parameters[$filteredKey] = $filteredValue;
+            }    
+            else
+            {
+               $filteredValue = $this->filter->filters($value);
+               $this->parameters[$filteredKey] = $filteredValue;    
+            }
+        }
     }
 
     public static function createWith($request, $filter)
@@ -100,7 +110,7 @@ class HttpRequestParameters implements IParameters
         else
         {
             return NULL;
-        }	
+        }   
     }
     }
 ?>

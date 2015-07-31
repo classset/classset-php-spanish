@@ -25,6 +25,7 @@
 interface IEncryptor
 {		
 	public function encrypt($text);
+	public function verify($input_password_hash, $stored_password_hash);
 }
 
 ?>

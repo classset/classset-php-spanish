@@ -31,7 +31,9 @@ class A_CreateUser implements IAction
         $name = $params->get('user-name');
         $password = $params->get('user-password');
         $passwordConfirmation = $params->get('password-confirmation');
-        $encryptPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        $encryptor = EncryptorFactory::create();
+        $encryptPassword = $encryptor->encrypt($password);
 
         //VALIDATION
         $datahandler = DatahandlerFactory::create();

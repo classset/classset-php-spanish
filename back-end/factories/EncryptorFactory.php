@@ -24,9 +24,10 @@
 
 class EncryptorFactory implements IFactory
 {	
-    public static function create($id = "BasicEncryptor")
+    public static function create($id = "CompleteEncryptor")
     {
         if($id == "BasicEncryptor") return new BasicEncryptor;
+        if($id == "CompleteEncryptor") return new CompleteEncryptor;
         
         $messenger = MessengerFactory::create();
         $messenger->say('Null Encryptor');

@@ -46,7 +46,8 @@ class A_Authenticate implements IAction
             $existingUser = $datahandler->getOutData();    
 
             //PASSWORD VERIFY
-            $isAuthenticate = (password_verify($userpassword, $existingUser['password']));
+            $encryptor = EncryptorFactory::create();
+            $isAuthenticate = $encryptor->verify($userpassword, $existingUser['password']);
 
             if( $isAuthenticate )
             {
