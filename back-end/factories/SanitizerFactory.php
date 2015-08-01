@@ -22,15 +22,14 @@
  *  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  **/
 
-class FilterFactory implements IFactory
+class SanitizerFactory implements IFactory
 {   
-    public static function create($id = "SanitizerFilter")
+    public static function create($id = "GenericSanitizer")
     {
-        if($id == "SingleQuotesFilter") return new SingleQuotesFilter;
-        if($id == "SanitizerFilter") return new SanitizerFilter;
+        if($id == "GenericSanitizer") return new GenericSanitizer;
         
         $messenger = MessengerFactory::create();
-        $messenger->say('Null Filter');
+        $messenger->say('Null Sanitizer');
     }
 }
 

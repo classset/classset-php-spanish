@@ -59,24 +59,11 @@ class HttpRequestParameters implements IParameters
 
     private function escape_request_parameters()
     {
-       foreach ($this->request as $key => $value)
-       {
-            $filteredKey = $this->filter->filters($key);
-            if (is_array($value))
-            {
-                $filteredValue = array();
-                for ($i=0; $i < count($value); $i++) 
-                {
-                   $val = $this->filter->filters($value[$i]);
-                   $filteredValue[$i] = $val;
-                }
-                $this->parameters[$filteredKey] = $filteredValue;
-            }    
-            else
-            {
-               $filteredValue = $this->filter->filters($value);
-               $this->parameters[$filteredKey] = $filteredValue;    
-            }
+        foreach ($this->request as $key => $value) 
+        {
+            $filteredKey = $this->filter->filters($key);          
+            $filteredValue = $this->filter->filters($value);
+            $this->parameters[$filteredKey] = $filteredValue;
         }
     }
 

@@ -1,6 +1,6 @@
 <?php
 /*--------------------------------------------------------------------------------------------------
-    EscapeFilter.php
+    SingleQuotesFilter.php
     ________________________________________________________________________________________________
 
     History of Modifications:
@@ -12,20 +12,26 @@
     VERSION: 1.0
 
     DESCRIPTION:
-        This class is a simple filter for escape and prevent SQL injection in PHP language.
+        This class is a simple filter for escape single quotes in PHP language.
 
     LICENSE:
         You are free to change or modify or redistribute the code, just keep the header.
         And you can use this class in any application you want without any warranty.
 */
 
-class EscapeFilter implements IFilter
+class SingleQuotesFilter implements IFilter
 {
-    public function filters($str)
+    public function filters($subject)
     {
-        $data = trim($str);
-        $data = str_replace("'", "''", $data);
-        return $data;
-    }
+        $pattern = array(); 
+        $pattern[0] = "/'/";
+
+        $replacement = array();
+        $replacement[0] = "''";
+
+        return preg_replace($pattern, $replacement, $subject);
+    }  
 }
+
+
 ?>
