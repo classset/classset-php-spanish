@@ -21,7 +21,7 @@
 
 class SingleQuotesFilter implements IFilter
 {
-    public function filters($subject)
+    private function escape_single_quotes($input)
     {
         $pattern = array(); 
         $pattern[0] = "/'/";
@@ -29,9 +29,23 @@ class SingleQuotesFilter implements IFilter
         $replacement = array();
         $replacement[0] = "''";
 
-        return preg_replace($pattern, $replacement, $subject);
-    }  
+        return preg_replace($pattern, $replacement, $input);
+    } 
+
+    public function filters($input) 
+    {
+        if (is_array($input)) 
+        {
+            foreach($input as $var=>$val) 
+            {
+                $output[$var] = $this->filters($val);
+            }
+        }
+        else 
+        {
+            $output = $this->escape_single_quotes($input);
+        }
+        return $output;
+    }
 }
-
-
 ?>
