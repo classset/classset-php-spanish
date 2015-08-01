@@ -24,10 +24,10 @@
 
 class FilterFactory implements IFactory
 {   
-    public static function create($id = "SanitizerFilter")
+    public static function create($id = "InputSanitizerFilter")
     {
+    	if($id == "InputSanitizerFilter") return new InputSanitizerFilter;
         if($id == "SingleQuotesFilter") return new SingleQuotesFilter;
-        if($id == "SanitizerFilter") return new SanitizerFilter;
         
         $messenger = MessengerFactory::create();
         $messenger->say('Null Filter');

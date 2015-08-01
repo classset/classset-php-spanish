@@ -1,6 +1,6 @@
 <?php
 /*--------------------------------------------------------------------------------------------------
-    SanitizerFilter.php
+    InputSanitizerFilter.php
     ________________________________________________________________________________________________
 
     History of Modifications:
@@ -20,7 +20,7 @@
         And you can use this class in any application you want without any warranty.
 */
 
-class SanitizerFilter implements IFilter
+class InputSanitizerFilter implements IFilter
 {
     private function cleanInput($input) 
     {
@@ -36,7 +36,7 @@ class SanitizerFilter implements IFilter
         return $output;
     }
 
-    private function escape_quotes($input)
+    private function escape_single_quotes($input)
     {
         $pattern = array(); 
         $pattern[0] = "/'/";
@@ -62,7 +62,7 @@ class SanitizerFilter implements IFilter
             {
                 $input = stripslashes($input);
             }
-            $output = $this->escape_quotes($input);
+            $output = $this->escape_single_quotes($input);
         }
         return $output;
     }
