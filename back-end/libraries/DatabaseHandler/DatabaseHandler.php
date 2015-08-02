@@ -2,6 +2,7 @@
 /**
  *  Copyright 2013 Gabriel Nicolás González Ferreira <gabrielinuz@gmail.com> 
  *  and 2015 Pablo Daniel Spennato <pdspennato@gmail.com> 
+ *
  *  Permission is hereby granted, free of charge, to any person obtaining
  *  a copy of this software and associated documentation files (the
  *  "Software"), to deal in the Software without restriction, including
@@ -172,14 +173,11 @@ class DatabaseHandler implements IDatabaseHandler
         $this -> databaseLink = $this -> databaseObject -> openDatabase();
         return $this;
     }
-    //INTERFACE PUBLIC METHOD
 
-    private function bindParams($query, $params)
-    {
-        if (!empty($params))
-        {
-            foreach ($params as $key => $value)
-            {
+    //INTERFACE PUBLIC METHOD
+    private function bindParams($query, $params){
+        if (!empty($params)){
+            foreach ($params as $key => $value){
                 $query->bindValue(':'.$key,$value);
             }
         }
@@ -275,26 +273,26 @@ class DatabaseHandler implements IDatabaseHandler
     }
 
     /*FOR TRANSACTIONS*/
-    public function SQLTransaction($queriesOnArray)
+    public function SQLTransaction($queriesOnArray, $params = null)
     {
         $databaseLink = $this -> databaseLink;
-        $reply = $this -> execQueriesInTransaction($queriesOnArray);
+        $reply = $this -> execQueriesInTransaction($queriesOnArray, $params);
         $this -> closeDatabase($databaseLink, $reply);
     }
 
-    public function SQLTransactionArray($queriesOnArray)
+    public function SQLTransactionArray($queriesOnArray, $params = null)
     {
         $databaseLink = $this -> databaseLink;
-        $reply = $this -> execQueriesInTransaction($queriesOnArray);
+        $reply = $this -> execQueriesInTransaction($queriesOnArray, $params);
         $resultRow = $this -> getResultingRowOnArray($reply);
         $this -> closeDatabase($databaseLink, $reply);
         return $resultRow;
     }
 
-    public function SQLTransactionAllArray($queriesOnArray)
+    public function SQLTransactionAllArray($queriesOnArray, $params = null)
     {
         $databaseLink = $this -> databaseLink;
-        $reply = $this -> execQueriesInTransaction($queriesOnArray);
+        $reply = $this -> execQueriesInTransaction($queriesOnArray, $params);
         $resultRow = $this -> getResultingRowsOnArrayOfArrays($reply);
         $this -> closeDatabase($databaseLink, $reply);
         return $resultRow;    
